@@ -1,7 +1,5 @@
 # HR-promocion-empleados
 
-# Trabajo 1: Promoción de empleados
-
 El departamento de recursos humanos de una empresa multinacional ha almacenado los datos de las promociones internas del último año. Con estos datos la empresa quiere conocer si existen patrones determinados a la hora de promocionar a un empleado o no. Además esta empresa quiere saber si puede tomar alguna medida en el futuro para orientar la mejora de las carreras profesionales de sus empleados.
 
 Para ello la empresa os pide:
