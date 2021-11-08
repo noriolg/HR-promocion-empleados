@@ -8,6 +8,8 @@ import utils
 
 # 2. Key variables - How are promotions granted?
 # ====================================================
+
+
 def plot_promotions_by_cat_variable(colname):
     trace0 = go.Bar(x=df[colname].unique(),
                     y=[df[(df[colname] == item) & (df['is_promoted'] == 1)]
@@ -26,7 +28,7 @@ def plot_promotions_by_cat_variable(colname):
                        xaxis_title=dict_of_column_names[colname], yaxis_title="Number of workers", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
 
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
 
     return fig
 
@@ -53,7 +55,7 @@ def plot_percentage_promotions_by_cat_variable(colname):
     layout = go.Layout(title="% Promotions by " +
                        dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="% of workers", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -73,7 +75,7 @@ def plot_promotions_by_quant_variable(colname):
     layout = go.Layout(title="Promotions by " +
                        dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="Frequency", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -115,9 +117,9 @@ def plot_percentage_promotions_by_quant_variable(colname):
 
     data = [trace0]
     layout = go.Layout(title="% Promotions by " +
-                       dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="Frequency", paper_bgcolor="#FAF9F9")
+                       dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="% of workers", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -143,7 +145,7 @@ def department_constitution(title):
                        yaxis_title="Prev. year rating", paper_bgcolor="#FAF9F9")
 
     fig = go.Figure(data=data, layout=layout)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -176,7 +178,7 @@ def ages_service_lengths(title):
                        xaxis_title="Age", yaxis_title="Length of service", paper_bgcolor="#FAF9F9")
 
     fig = go.Figure(data=data, layout=layout)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -189,7 +191,7 @@ def avg_training_score_no_of_trainings_promotions(title):
                          "is_promoted": dict_of_column_names["is_promoted"]
                      },
                      title=title)
-    fig = utils.layout_additions(fig)                      
+    fig = utils.layout_additions(fig)
     return fig
 
 
