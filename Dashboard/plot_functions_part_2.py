@@ -22,7 +22,7 @@ def plot_promotions_by_cat_variable(colname):
 
     data = [trace0, trace1]
     layout = go.Layout(title="Promotions by " + dict_of_column_names[colname],
-                       xaxis_title=dict_of_column_names[colname], yaxis_title="Number of workers")
+                       xaxis_title=dict_of_column_names[colname], yaxis_title="Number of workers", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
     return fig
 
@@ -47,7 +47,7 @@ def plot_percentage_promotions_by_cat_variable(colname):
 
     data = [trace0]
     layout = go.Layout(title="% Promotions by " +
-                       dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="% of workers")
+                       dict_of_column_names[colname], xaxis_title=dict_of_column_names[colname], yaxis_title="% of workers", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
     return fig
 

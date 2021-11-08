@@ -165,7 +165,6 @@ app.layout = html.Div([
                                )],
                         style={
                             "width": "700px",
-                            "height": "575px",
                             "display": "inline-block",
                         },
                     ),
@@ -180,7 +179,6 @@ app.layout = html.Div([
                                )],
                         style={
                             "width": "700px",
-                            "height": "575px",
                             "display": "inline-block",
                         },
                     ),

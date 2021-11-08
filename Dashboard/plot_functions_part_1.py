@@ -56,7 +56,7 @@ def createPieChartofColumn(column_name):
                    direction="clockwise")
     data = [trace]
     layout = go.Layout(title="Distribution of " +
-                       str(dict_of_column_names[column_name]))
+                       str(dict_of_column_names[column_name]), paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
     return fig
 
@@ -67,6 +67,6 @@ def createHistogramofColumn(column_name):
                           opacity=0.7)
     data = [trace0]
     layout = go.Layout(title="Distribution of " +
-                       dict_of_column_names[column_name], xaxis_title=dict_of_column_names[column_name], yaxis_title="Frequency")
+                       dict_of_column_names[column_name], xaxis_title=dict_of_column_names[column_name], yaxis_title="Frequency", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
     return fig
