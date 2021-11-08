@@ -7,11 +7,25 @@
 import pandas as pd
 df = pd.read_csv('data/trabajo1.csv')
 
+# This unaltered dataset is for the model buiding
+df_m = df.copy()
+
+# We generate a dataset with filled nans for plotting in EDA step
+df["education"].fillna(value="NA", inplace=True)
+
+# A dataset with department-specific information
+df_department = pd.read_pickle('data/datos_departamentos.pkl')
+
+df_ages_service_lengths = pd.read_pickle('data/datos_ages_service_lengths.pkl')
+
+
+# Lists and dictionaries for easier access and formating
 categorical_columns = ["department", "region", "education",
-                       "gender", "recruitment_channel", "is_promoted"]
+                       "gender", "recruitment_channel", "awards_won", "is_promoted"]
 quantitative_columns = ["no_of_trainings", "age", "previous_year_rating",
-                        "length_of_service", "awards_won", "avg_training_score"]
+                        "length_of_service", "avg_training_score"]
 dict_of_column_names = {
+    "employee_id": "Employee ID",
     "department": "Department",
     "region": "Region",
     "education": "Education",
@@ -23,8 +37,10 @@ dict_of_column_names = {
     "previous_year_rating": "Previous Year Rating",
     "length_of_service": "Length of Service",
     "awards_won": "Awards Won",
-    "avg_training_score": "Average Training Score"
+    "avg_training_score": "Average Training Score",
+    "is_promoted": "Is Promoted"
 }
+
 
 # Colors for text and titles
 colors = {
@@ -33,6 +49,8 @@ colors = {
     "titles": "#1C77AF"
 }
 
+
+legend_size = 20
 
 # 0. Explaining the objective and description
 # ============================================

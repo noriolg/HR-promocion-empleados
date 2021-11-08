@@ -58,12 +58,21 @@ app.layout = html.Div([
                          ),
 
             dcc.Graph(
-                figure=initial_table,
+                figure=table_initial_variables(),
                 id="tabla-inicial",
                 style={
                     "display": "block",
                     "height": "400px"}
             ),
+
+            dcc.Graph(
+                figure=bar_chart_of_variable_distribution(),
+                id="variable-distribution-bar-chart",
+                style={
+                    "display": "block",
+                    "height": "400px"}
+            ),
+
 
             dcc.Markdown(children="The distribution of categorical variables can be seen in the following pie charts:",
                          style={"text-align": "left",
@@ -91,6 +100,24 @@ app.layout = html.Div([
                     "display": "block"
                 }
             ),
+
+            html.Div(children=[
+                dcc.Markdown(children="Groups with percentages lower than the slider will be grouped into \"Others\" ",
+                             style={"text-align": "center",
+                                    "color": colors['text'], }
+                             ),
+
+                dcc.Slider(id="categorical-variable-distribution-graph-slider", min=0, max=0.1, step=0.01, value=0.05,
+                           marks={i: str(int(i*100)) + \
+                                  "%" for i in np.linspace(0, 0.1, 11)},
+                           )],
+                     style={
+                "margin-left": "25%",
+                "margin-right": "25%",
+                "text-align": "center"
+            }
+            ),
+
 
             dcc.Markdown(children="The distribution of quantitative variables can be seen in the following histograms:",
                          style={"text-align": "left",
@@ -134,7 +161,7 @@ app.layout = html.Div([
                                 "color": colors['text'], }
                          ),
 
-            dcc.Markdown(children="The distribution of promotions by variable can be seen in the following pie charts:",
+            dcc.Markdown(children="The distribution of promotions by qualitative variable can be seen in the following pie charts:",
                          style={"text-align": "left",
                                 "color": colors['text'], }
                          ),
@@ -190,10 +217,101 @@ app.layout = html.Div([
                 }
             ),
 
+            dcc.Markdown(children="The distribution of promotions by quantitative variable can be seen in the following pie charts:",
+                         style={"text-align": "left",
+                                "color": colors['text'], }
+                         ),
+
+            html.Div(
+                children=[
+                    dcc.Dropdown(
+                        options=options_quantitative_variables,
+                        placeholder="Selecciona una variable",
+                        id="quantitative-variable-distribution-of-promotions-picker",
+                        style={
+                            "display": "block",
+                            "width": "300px",
+                            "margin-left": "10px"
+                        },
+                        # Valor por defecto el de la primera variable
+                        value=options_quantitative_variables[0]['value']
+                    ),
+
+
+                    html.Div(  # Bloque izquierdo
+                        children=[
+                               dcc.Graph(
+                                   id="quantitative-variable-distribution-of-promotions-percentages-graph",
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+                    html.Div(  # Bloque derecho
+                        children=[
+                               dcc.Graph(
+                                   id="quantitative-variable-distribution-of-promotions-graph",
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+
+                ],
+                style={
+                    "text-align": "center"
+                }
+            ),
+
             dcc.Markdown(children="Now, we will show a few interesting insights that we have found within the dataset:",
                          style={"text-align": "left",
                                 "color": colors['text'], }
                          ),
+
+            dcc.Graph(
+                figure=department_constitution(
+                    "Some departments have a higher promotion rate than others, with previous year's ratings being somewhat important"),
+                style={
+                    "display": "block",
+                    "height": "600px"}
+            ),
+
+            dcc.Graph(
+                figure=department_avg_training_score(
+                    "Training scores differ amongst departments and explain promotions adequately"),
+                style={
+                    "display": "block",
+                    "height": "600px"}
+            ),
+
+            dcc.Graph(
+                figure=avg_training_score_no_of_trainings_promotions(
+                    "High training scores almost always get promoted and higher amount of trainings do not matter as much"),
+                style={
+                    "display": "block",
+                    "height": "600px"}
+            ),
+
+
+            dcc.Graph(
+                figure=ages_service_lengths(
+                    "For every age group, more senior people are more likely to be promoted. In higher age ranges, promotions are more spread out"),
+                style={
+                    "display": "block",
+                    "height": "600px"}
+            ),
+
+
 
 
 
@@ -231,10 +349,13 @@ app.layout = html.Div([
     Output(component_id="categorical-variable-distribution-graph",
            component_property='figure'),
     Input(component_id="categorical-variable-distribution-picker",
+          component_property='value'),
+    Input(component_id="categorical-variable-distribution-graph-slider",
           component_property='value')
+
 )
-def update_categorical_variable_distribution_graph(input_value):
-    fig = createPieChartofColumn(input_value)
+def update_categorical_variable_distribution_graph(input_value, slider_input):
+    fig = createPieChartofColumn(input_value, slider_input)
     return fig
 
 
@@ -257,9 +378,23 @@ def update_quantitative_variable_distribution_graph(input_value):
     Input(component_id="categorical-variable-distribution-of-promotions-picker",
           component_property='value')
 )
-def update_quantitative_variable_distribution_graph(input_value):
+def update_qualitative_variable_promotion_distribution_graph(input_value):
     fig1 = plot_promotions_by_cat_variable(input_value)
-    fig2 = secure_plot_percentage_promotions_by_cat_variable(input_value, df)
+    fig2 = plot_percentage_promotions_by_cat_variable(input_value)
+    return fig1, fig2
+
+
+@ app.callback(
+    Output(component_id="quantitative-variable-distribution-of-promotions-graph",
+           component_property='figure'),
+    Output(component_id="quantitative-variable-distribution-of-promotions-percentages-graph",
+           component_property='figure'),
+    Input(component_id="quantitative-variable-distribution-of-promotions-picker",
+          component_property='value')
+)
+def update_quantitative_variable_promotion_distribution_graph(input_value):
+    fig1 = plot_promotions_by_quant_variable(input_value)
+    fig2 = plot_percentage_promotions_by_quant_variable(input_value)
     return fig1, fig2
 
 
