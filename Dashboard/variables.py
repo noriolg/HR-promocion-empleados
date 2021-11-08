@@ -1,23 +1,30 @@
+import pandas as pd
 
 # Global variables used all throughout the code
 # ============================================
 
 
-# For ploting
-import pandas as pd
-df = pd.read_csv('data/trabajo1.csv')
+# Dataframes
+# =============
 
-# This unaltered dataset is for the model buiding
-df_m = df.copy()
+
+df = pd.read_csv('data/trabajo1.csv')
 
 # We generate a dataset with filled nans for plotting in EDA step
 df["education"].fillna(value="NA", inplace=True)
 
+# The dataset with treated nulls  for the model buiding
+df_model = pd.read_pickle('data/df_treated_nulls.pkl')
+
 # A dataset with department-specific information
 df_department = pd.read_pickle('data/datos_departamentos.pkl')
 
+# A dataset with age and service-lengths related to promotions
 df_ages_service_lengths = pd.read_pickle('data/datos_ages_service_lengths.pkl')
 
+
+# Other values
+# =============
 
 # Lists and dictionaries for easier access and formating
 categorical_columns = ["department", "region", "education",
