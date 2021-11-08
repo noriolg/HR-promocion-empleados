@@ -2,6 +2,30 @@
 # Global variables used all throughout the code
 # ============================================
 
+
+# For ploting
+import pandas as pd
+df = pd.read_csv('data/trabajo1.csv')
+
+categorical_columns = ["department", "region", "education",
+                       "gender", "recruitment_channel", "is_promoted"]
+quantitative_columns = ["no_of_trainings", "age", "previous_year_rating",
+                        "length_of_service", "awards_won", "avg_training_score"]
+dict_of_column_names = {
+    "department": "Department",
+    "region": "Region",
+    "education": "Education",
+    "gender": "Gender",
+    "recruitment_channel": "Recruitment Channel",
+    "is_promoted": "Is Promoted",
+    "no_of_trainings": "Number of tranings",
+    "age": "Age",
+    "previous_year_rating": "Previous Year Rating",
+    "length_of_service": "Length of Service",
+    "awards_won": "Awards Won",
+    "avg_training_score": "Average Training Score"
+}
+
 # Colors for text and titles
 colors = {
     "text": "#303234",
@@ -38,13 +62,21 @@ markdown_part_1_text = """
 This is the data table with all the employee information and relevant columns. IDs have been removed for anonymity.
 """
 
+options_categorical_variables = [dict(
+    label=dict_of_column_names[variable], value=variable) for variable in categorical_columns]
+
+
+options_quantitative_variables = [dict(
+    label=dict_of_column_names[variable], value=variable) for variable in quantitative_columns]
+
 
 # 2. Key variables - How are promotions granted?
 # ====================================================
 markdown_part_2_title = "## 2. Key variables - How are promotions granted?"
 
 markdown_part_2_text = """
-
+In this second part of the analysis, we will study the promotions granted based on each different variable. Afterwards, we will
+analyze several key relationships that have been found within the data.
 """
 
 
