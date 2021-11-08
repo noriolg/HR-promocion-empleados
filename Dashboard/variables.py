@@ -67,7 +67,7 @@ markdown_part_0_title = "## Describing the problem - How to empower employees to
 
 markdown_part_0_text = """
 The aim of this project is to provide feedback on promotion patterns within our client's business. With this information, a tool will be created
-to empower employees and assist them in making more impactful career decisions. This study is will provide an exploratory data analysisanalysis (EDA) showing current patterns, a model for promotion prediction and a customizable 
+to empower employees and assist them in making more impactful career decisions. This study is will provide an exploratory data analysis (EDA) showing current patterns, a model for promotion prediction and a customizable 
 tool to suggest actions to employees.
 
 This dashboard is organized with the following structure:
