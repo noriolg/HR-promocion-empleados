@@ -3,13 +3,14 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 from variables import *
+import utils
 
 
 # 1. Data description - Showing current employee patterns
 # ====================================================
 
 
-def createPieChartofColumn(column_name):
+def createPieChartofColumn(column_name, others_threshold):
     # List with all unique labels in column
     unique_categories = df[column_name].unique()
     # Totals for each of the unique labels
@@ -35,17 +36,19 @@ def createPieChartofColumn(column_name):
     for row in range(df_categories.shape[0]):
         row_total = df_categories.iloc[row, 1]
         row_percentage = df_categories.iloc[row, 2]
-        if row_percentage < 0.05:
+        if row_percentage < others_threshold:
             # Minor importance is set to 1
             df_categories.iloc[row, 3] = 1
             acum_total = acum_total + row_total
 
-    # We delete all rows with minor importance
-    df_categories = df_categories[df_categories['minor_importance'] == 0]
+    # Only if total categories > 3
+    if len(unique_categories) > 3:
+        # We delete all rows with minor importance
+        df_categories = df_categories[df_categories['minor_importance'] == 0]
 
-    # Append the "Others" row
-    row = ["Others", acum_total, acum_total/total_valores, 0]
-    df_categories.loc[len(df_categories)] = row
+        # Append the "Others" row
+        row = ["Others", acum_total, acum_total/total_valores, 0]
+        df_categories.loc[len(df_categories)] = row
 
     # Start pie figure
     labels = df_categories["category"]
@@ -56,8 +59,9 @@ def createPieChartofColumn(column_name):
                    direction="clockwise")
     data = [trace]
     layout = go.Layout(title="Distribution of " +
-                       str(dict_of_column_names[column_name]), paper_bgcolor="#FAF9F9")
+                       str(dict_of_column_names[column_name]),  paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
     return fig
 
 
@@ -69,4 +73,5 @@ def createHistogramofColumn(column_name):
     layout = go.Layout(title="Distribution of " +
                        dict_of_column_names[column_name], xaxis_title=dict_of_column_names[column_name], yaxis_title="Frequency", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
     return fig
