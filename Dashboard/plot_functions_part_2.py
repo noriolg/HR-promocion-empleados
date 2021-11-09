@@ -209,3 +209,59 @@ def department_avg_training_score(title):
     fig.update_traces(quartilemethod="exclusive")
     fig = utils.layout_additions(fig)
     return fig
+
+
+# Is the company an equal opportunity employer?
+def distribution_of_workers_per_department_and_gender_percentages(title):
+    trace0 = go.Bar(x=df_department['department'], y=df_department['male_staff'] /
+                    df_department['total_people'], name="Male Staff")
+    trace1 = go.Bar(x=df_department['department'], y=df_department['female_staff'] /
+                    df_department['total_people'], name="Female Staff")
+
+    data = [trace0, trace1]
+    layout = go.Layout(title=title, yaxis_title="Percentage of workers",
+                       showlegend=False)  # We do not show the legend because it is shown in the plot in the right
+    fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
+
+    return fig
+
+
+def distribution_of_workers_per_department_and_gender_absolutes(title):
+    trace0 = go.Bar(x=df_department['department'],
+                    y=df_department['male_staff'], name="Male Staff")
+    trace1 = go.Bar(x=df_department['department'],
+                    y=df_department['female_staff'], name="Female Staff")
+
+    data = [trace0, trace1]
+    layout = go.Layout(title=title,
+                       yaxis_title="Number of workers")
+    fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
+    return fig
+
+
+def distribution_of_workers_promotion_per_department_and_gender(title):
+    trace0 = go.Bar(x=df_department['department'], y=df_department['promotions_male_staff'] /
+                    df_department['male_staff'], name="Male Staff")
+    trace1 = go.Bar(x=df_department['department'], y=df_department['promotions_female_staff'] /
+                    df_department['female_staff'], name="Female Staff")
+
+    data = [trace0, trace1]
+    layout = go.Layout(title=title, xaxis_title="Department",
+                       yaxis_title="Percentage of workers promoted", showlegend=False)  # We do not show the legend because it is shown in the plot above
+    fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
+    return fig
+
+
+def total_distribution_of_workers_promotion(title):
+    trace0 = go.Bar(y=['Male', 'Female'], x=[df_department['promotions_male_staff'].sum()/df_department['male_staff'].sum(),
+                    df_department['promotions_female_staff'].sum()/df_department['female_staff'].sum()], name="Staff", orientation='h')
+
+    data = [trace0]
+    layout = go.Layout(title=title, xaxis_title="Percentage of workers promoted",
+                       yaxis_title="Gender", showlegend=False)  # We do not show the legend because it is shown in the plot above
+    fig = go.Figure(data=data, layout=layout)
+    fig = utils.layout_additions(fig)
+    return fig

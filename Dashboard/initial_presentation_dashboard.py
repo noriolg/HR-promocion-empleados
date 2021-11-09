@@ -312,6 +312,100 @@ app.layout = html.Div([
             ),
 
 
+            # Gender analysis - Is the company an equal opportunity employer?
+            dcc.Markdown(children="After arriving to this point and having a better understanding\
+                 of the employees and their distribution we wanted to ensure that the business was an equal opportunity employer and that promotions are not biased by gender",
+                         style={"text-align": "left",
+                                "color": colors['text'], }
+                         ),
+
+            dcc.Markdown(children="### The company is an equal opportunity employer",
+                         style={"text-align": "center",
+                                "color": colors['text'],
+                                "margin-top":"70px"}
+                         ),
+
+            html.Div(
+                children=[
+
+                    html.Div(  # Bloque izquierdo
+                        children=[
+                               dcc.Graph(
+                                   figure=distribution_of_workers_per_department_and_gender_percentages(
+                                       "Although male employees represent a higher percentage of workers..."),
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+                    html.Div(  # Bloque derecho
+                        children=[
+                               dcc.Graph(
+                                   figure=distribution_of_workers_per_department_and_gender_absolutes(
+                                       "...and they are more prevalent than females in all departments"),
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+
+                ],
+                style={
+                    "text-align": "center"
+                }
+            ),
+
+            html.Div(
+                children=[
+
+                    html.Div(  # Bloque izquierdo
+                        children=[
+                               dcc.Graph(
+                                   figure=distribution_of_workers_promotion_per_department_and_gender(
+                                       "Percentage of females promoted outshines males in most departments..."),
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+                    html.Div(  # Bloque derecho
+                        children=[
+                               dcc.Graph(
+                                   figure=total_distribution_of_workers_promotion(
+                                       "...resulting in a roughly equal promotion percentage"),
+                                   style={
+                                       "display": "block"
+                                   }
+                               )],
+                        style={
+                            "width": "700px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+
+                ],
+                style={
+                    "text-align": "center"
+                }
+            ),
+
+
 
 
 
