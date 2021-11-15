@@ -50,4 +50,5 @@ def bar_chart_of_variable_distribution():
     layout = go.Layout(title="Unique values per column",
                        xaxis_title="Variable", yaxis_title="N. Unique Values", paper_bgcolor="#FAF9F9")
     fig = go.Figure(data=data, layout=layout)
+
     return fig
