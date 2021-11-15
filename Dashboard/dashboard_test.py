@@ -111,6 +111,7 @@ app.layout = html.Div([
     Input(component_id="my-Input-id", component_property='value')
 )
 def update_output_div(input_value):
+
     return "Texto introducido: {0}".format(input_value)
 
 
