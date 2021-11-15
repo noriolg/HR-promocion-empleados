@@ -9,6 +9,7 @@ import pandas as pd
 
 
 df = pd.read_csv('data/trabajo1.csv')
+df_raw = df.copy()
 
 # We generate a dataset with filled nans for plotting in EDA step
 df["education"].fillna(value="NA", inplace=True)
@@ -46,6 +47,18 @@ dict_of_column_names = {
     "awards_won": "Awards Won",
     "avg_training_score": "Average Training Score",
     "is_promoted": "Is Promoted"
+}
+
+dict_of_recruiting_channels = {
+    "sourcing": "Sourcing",
+    "other": "Other",
+    "referred": "Referred"
+}
+
+dict_of_categorical_variables = {
+
+
+
 }
 
 
@@ -121,3 +134,21 @@ markdown_part_4_title = "## 4. Employee tool - What can I do as an individual em
 markdown_part_4_text = """
 
 """
+
+# Big div containing the components
+width_div_components_for_employee_tool = "300px"
+# Component (pickers and others)
+width_input_components_for_employee_tool = "170px"
+
+
+# Department options
+department_options = [dict(label=department_name, value=department_name)
+                      for department_name in df["department"].unique()]
+
+
+education_options = [dict(label=education_level, value=education_level)
+                     for education_level in df_raw["education"].dropna().unique()]  # Se pone raw porque no queremos que aparezca "NA" como opción y df tiene los nan como "NA"
+
+
+recruitment_options = [dict(label=dict_of_recruiting_channels[channel], value=channel)
+                       for channel in df["recruitment_channel"].unique()]
