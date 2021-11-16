@@ -875,32 +875,34 @@ app.layout = html.Div([
                     html.Div(children=[
 
 
-                        dcc.Markdown(children="**When ready, press the submit button:**",
-                                     style={"text-align": "right",
-                                            "color": colors['text'],
-                                            "margin-top": "25px"}
-                                     ),
-
+                        html.Button('Generate Profile', id='submit-button', n_clicks=0,
+                                    style={"width": "250px",
+                                           "height": "40px",
+                                           "font-weight": "bold",
+                                           "background-color": '#E1ECF7',
+                                           "font-size": "18px",
+                                           "border-radius": "100px"})
 
                     ],
                         style={
                             "width": "25%",
                             "margin-left": "2.5%",
                             "margin-right": "2.5%",
+                            "margin-top": "40px",
+                            "vertical-align": "top",
                             "display": "inline-block",
-                            "text-align": "right"}
+                            "text-align": "center"}
                     ),
 
 
                     # Cuarta línea, caja derecha
                     html.Div(children=[
 
-                        html.Button('Submit', id='submit-button', n_clicks=0,
-                                    style={"width": "150px",
-                                           "height": "40px",
-                                           "text-font": "bold",
-                                           "background-color": '#E1ECF7',
-                                           "border-radius": "100px"})
+                        dcc.Markdown(children=" ",
+                                     style={"text-align": "right",
+                                            "color": colors['text'],
+                                            "margin-top": "25px"}
+                                     ),
 
                     ],
                         style={
@@ -942,17 +944,17 @@ app.layout = html.Div([
 
 
 
+
             html.Div(children=[
 
-                dcc.Markdown(children="Aquí irá el modelo",
-                             style={"text-align": "left",
-                                    "color": colors['text'],
-                                    "margin-top": "25px"}
-                             ),
-                html.Div(
-                    id='model-output-div', children=["Aquí ya no hay nada"], style={'border': '2px blue solid'}),
 
-
+                html.Div([
+                    dcc.Tabs(id="tabs", value='tab-1', children=[
+                        dcc.Tab(label='Promotion probability', value='tab-1'),
+                        dcc.Tab(label='Employee comparison', value='tab-2'),
+                    ]),
+                    html.Div(id='tabs-content')
+                ]),
 
             ],
                 style={"background-color": "#F3F3F3",
@@ -1076,13 +1078,41 @@ def register_data_from_employee_profile_and_run_predicion_model(submit_button_va
     if modelo_ok:
         prediction_text = generate_promotion_prediction(no_of_trainings, age, length_of_service,
                                                         training_score, award, gender, department, education, recruitment, previous_year_rating)
-        # Si modelo_ok es True, devolvemos tres cosas
 
     else:
         prediction_text = "No hay nada"
         # En caso de que no se corra la predicción del modelo, únicamente devolvemos dos cosas
 
     return user_text, submit_button_value, prediction_text
+
+
+@app.callback(Output('tabs-content', 'children'),
+              Input('tabs', 'value'))
+def render_content(tab):
+    if tab == 'tab-1':
+
+        return html.Div(
+            [
+                html.H3('Tab content 1'),
+                dcc.Markdown(children="Aquí irá el modelo",
+                             style={"text-align": "left",
+                                    "color": colors['text'],
+                                    "margin-top": "25px"}
+                             ),
+                html.Div(
+                    id='model-output-div', children=["Aquí ya no hay nada de nada"], style={'border': '2px blue solid'}),
+            ]
+        )
+    elif tab == 'tab-2':
+        return html.Div([
+            html.H3('Tab content 2'),
+            dcc.Markdown(children="Aquí irá la comparación del empleado con el resto de panas",
+                         style={"text-align": "left",
+                                "color": colors['text'],
+                                "margin-top": "25px"}
+                         ),
+
+        ])
 
 
 if __name__ == '__main__':
