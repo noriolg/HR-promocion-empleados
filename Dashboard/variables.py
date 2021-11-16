@@ -49,16 +49,25 @@ dict_of_column_names = {
     "is_promoted": "Is Promoted"
 }
 
-dict_of_recruiting_channels = {
-    "sourcing": "Sourcing",
-    "other": "Other",
-    "referred": "Referred"
-}
 
 dict_of_categorical_variables = {
-
-
-
+    'Sales & Marketing': 'Sales & Marketing',
+    'Operations': 'Operations',
+    'Technology': 'Technology',
+    'Analytics': 'Analytics',
+    'R&D': 'R&D',
+    'Procurement': 'Procurement',
+    'Finance': 'Finance',
+    'HR': 'HR',
+    'Legal': 'Legal',
+    "sourcing": "Sourcing",
+    "other": "Other",
+    "referred": "Referred",
+    "Master's & above": "Master's & above",
+    "Bachelor's": "Bachelor's",
+    'Below Secondary': "Below secondary",
+    'f': "Female",
+    'm': "Male"
 }
 
 
@@ -150,5 +159,5 @@ education_options = [dict(label=education_level, value=education_level)
                      for education_level in df_raw["education"].dropna().unique()]  # Se pone raw porque no queremos que aparezca "NA" como opción y df tiene los nan como "NA"
 
 
-recruitment_options = [dict(label=dict_of_recruiting_channels[channel], value=channel)
+recruitment_options = [dict(label=dict_of_categorical_variables[channel], value=channel)
                        for channel in df["recruitment_channel"].unique()]

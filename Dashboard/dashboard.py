@@ -428,6 +428,12 @@ app.layout = html.Div([
 
             html.Div(children=[
 
+                dcc.Markdown(children="### Create an employee profile to predict promotion probability",
+                             style={"text-align": "center",
+                                    "color": colors['subtitles'],
+                                    "margin-top": "50px"}
+                             ),
+
                 # Primera línea
                 html.Div(children=[
 
@@ -453,29 +459,23 @@ app.layout = html.Div([
                                         "height": "25px"
                                     },
                                 ),
-
                             ],
                             style={
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
-
-
                     ],
                         style={
                             "width": "25%",
                             "display": "inline-block",
                             "margin-left": "5%",
                             "margin-right": "2.5%",
-                            "text_align": "center",
-                            'border': '3px purple solid'}
+                            "text_align": "center"
+                    }
                     ),
-
-
 
                     # Primera línea, caja centro
                     html.Div(children=[
@@ -496,16 +496,15 @@ app.layout = html.Div([
                                         "width": width_input_components_for_employee_tool,
                                         "margin-left": "15%",
                                         "margin-right": "15%",
+                                        "height": "25px"
                                     },
                                 ),
-
                             ],
                             style={
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
 
@@ -515,8 +514,8 @@ app.layout = html.Div([
                             "width": "25%",
                             "margin-left": "2.5%",
                             "margin-right": "2.5%",
-                            "display": "inline-block",
-                            'border': '3px red solid'}
+                            "display": "inline-block"
+                    }
                     ),
 
 
@@ -539,32 +538,27 @@ app.layout = html.Div([
                                         "width": width_input_components_for_employee_tool,
                                         "margin-left": "15%",
                                         "margin-right": "15%",
+                                        "height": "25px"
                                     },
                                 ),
-
                             ],
                             style={
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
-
-
                     ],
                         style={
                             "width": "25%",
                             "display": "inline-block",
                             "margin-left": "2.5%",
                             "margin-right": "5%",
-                            'border': '3px blue solid'}
+                    }
                     ),
-
-
                 ],
-                    style={'border': '3px purple solid'}
+                    style={}
                 ),
 
 
@@ -599,8 +593,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
 
@@ -609,9 +602,10 @@ app.layout = html.Div([
                         style={
                             "width": "25%",
                             "display": "inline-block",
+                            "vertical-align": "top",
                             "margin-left": "5%",
                             "margin-right": "2.5%",
-                            'border': '3px purple solid'}
+                    }
                     ),
 
                     # Segunda línea, caja centro
@@ -628,12 +622,12 @@ app.layout = html.Div([
                                 dcc.RadioItems(
                                     options=[
                                         {'label': 'I have won awards',
-                                            'value': 'yes'},
+                                            'value': '1'},
                                         {'label': 'I have not won any awards yet',
-                                         'value': 'no'},
+                                         'value': '0'},
                                     ],
                                     id="award-picker-for-employee-tool",
-                                    value='yes',
+                                    value='1',
                                     labelStyle={'display': 'flex'},
                                     style={
                                         "margin-left": "40px",
@@ -644,8 +638,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
 
@@ -654,9 +647,9 @@ app.layout = html.Div([
                             "width": "25%",
                             "margin-left": "2.5%",
                             "margin-right": "2.5%",
-                            "padding-top": "20px",
-                            "display": "inline-block",
-                            'border': '3px red solid'}
+                            "vertical-align": "top",
+                            "display": "inline-block"
+                    }
                     ),
 
 
@@ -690,8 +683,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
 
@@ -700,14 +692,15 @@ app.layout = html.Div([
                         style={
                             "width": "25%",
                             "display": "inline-block",
+                            "vertical-align": "top",
                             "margin-left": "2.5%",
                             "margin-right": "5%",
-                            'border': '3px blue solid'}
+                    }
                     ),
 
 
                 ],
-                    style={'border': '3px green solid'}),
+                    style={"margin-top": "15px", }),
 
 
                 # Tercera línea
@@ -741,8 +734,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
 
@@ -753,7 +745,7 @@ app.layout = html.Div([
                             "display": "inline-block",
                             "margin-left": "5%",
                             "margin-right": "2.5%",
-                            'border': '3px purple solid'}
+                    }
                     ),
 
                     # Tercera línea, caja centro
@@ -783,8 +775,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
                     ],
@@ -792,8 +783,8 @@ app.layout = html.Div([
                             "width": "25%",
                             "margin-left": "2.5%",
                             "margin-right": "2.5%",
-                            "display": "inline-block",
-                            'border': '3px red solid'}
+                            "display": "inline-block"
+                    }
                     ),
 
 
@@ -826,7 +817,6 @@ app.layout = html.Div([
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
                                 "margin-right": "10%",
-                                'border': '3px blue solid'
                             },
                         ),
                     ],
@@ -834,11 +824,12 @@ app.layout = html.Div([
                             "width": "25%",
                             "display": "inline-block",
                             "margin-left": "2.5%",
-                            "margin-right": "5%",
-                            'border': '3px blue solid'}
+                            "margin-right": "5%"
+                    }
                     ),
                 ],
-                    style={'border': '3px yellow solid'}),
+                    style={"margin-top": "15px", }
+                ),
 
 
                 # Cuarta línea
@@ -869,8 +860,7 @@ app.layout = html.Div([
                                 "display": "block",
                                 "width": width_div_components_for_employee_tool,
                                 "margin-left": "10%",
-                                "margin-right": "10%",
-                                'border': '3px blue solid'
+                                "margin-right": "10%"
                             },
                         ),
                     ],
@@ -878,14 +868,19 @@ app.layout = html.Div([
                             "width": "25%",
                             "display": "inline-block",
                             "margin-left": "5%",
-                            "margin-right": "2.5%",
-                            'border': '3px purple solid'}
+                            "margin-right": "2.5%"}
                     ),
 
                     # Cuarta línea, caja centro
                     html.Div(children=[
 
-                        "When ready, press the submit button"
+
+                        dcc.Markdown(children="**When ready, press the submit button:**",
+                                     style={"text-align": "right",
+                                            "color": colors['text'],
+                                            "margin-top": "25px"}
+                                     ),
+
 
                     ],
                         style={
@@ -893,7 +888,6 @@ app.layout = html.Div([
                             "margin-left": "2.5%",
                             "margin-right": "2.5%",
                             "display": "inline-block",
-                            'border': '3px red solid',
                             "text-align": "right"}
                     ),
 
@@ -904,6 +898,7 @@ app.layout = html.Div([
                         html.Button('Submit', id='submit-button', n_clicks=0,
                                     style={"width": "150px",
                                            "height": "40px",
+                                           "text-font": "bold",
                                            "background-color": '#E1ECF7',
                                            "border-radius": "100px"})
 
@@ -914,19 +909,34 @@ app.layout = html.Div([
                             "display": "inline-block",
                             "margin-left": "2.5%",
                             "margin-right": "5%",
-                            'border': '3px blue solid'}
+                    }
                     ),
 
 
                 ],
-                    style={'border': '3px yellow solid'}),
+                    style={"margin-top": "15px"}
+                ),
+
+
+
+                dcc.Markdown(id="employee-profile-message",
+                             style={"text-align": "center",
+                                    "color": colors['text'],
+                                    "border-radius":"10px",
+                                    "background-color": "#FBFAFA",
+                                    "width": "70%",
+                                    "padding": "5px 5px 5px 5px",
+                                    "margin-left": "15%",
+                                    "margin-top": "25px"}
+                             ),
+
             ],
                 style={"background-color": "#F3F3F3",
                        'margin-right': "3%",
                        'margin-left': "3%",
                        "box-shadow": "0 3px 10px rgb(0 0 0 / 0.5)",
                        'padding': "15px 20px 15px",
-                       'border-radius': '10px'
+                       'border-radius': '10px',
                        }
             ),
 
@@ -939,7 +949,8 @@ app.layout = html.Div([
                                     "color": colors['text'],
                                     "margin-top": "25px"}
                              ),
-                html.Div(id='my-Div-id', style={'border': '2px blue solid'}),
+                html.Div(
+                    id='model-output-div', children=["Aquí ya no hay nada"], style={'border': '2px blue solid'}),
 
 
 
@@ -1023,10 +1034,12 @@ def update_quantitative_variable_promotion_distribution_graph(input_value):
 
 
 @ app.callback(
-    Output(component_id="my-Div-id",
+    Output(component_id="employee-profile-message",
            component_property='children'),
     Output(component_id="submit-button",
            component_property='n_clicks'),
+    Output(component_id="model-output-div",
+           component_property='children'),
     Input(component_id="submit-button",
           component_property="n_clicks"),
     State(component_id="no-of-trainings-picker-for-employee-tool",
@@ -1050,28 +1063,26 @@ def update_quantitative_variable_promotion_distribution_graph(input_value):
     State(component_id="previous-year-rating-picker-for-employee-tool",
           component_property='value'),
 )
-def update_quantitative_variable_promotion_distribution_graph(submit_button_value, no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
+def register_data_from_employee_profile_and_run_predicion_model(submit_button_value, no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
 
-    hay_campos_vacios = calcular_si_hay_campos_vacios(
-        no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating)
+    # Esta función genera el texto a mostrar al usuario y nos indica si ha de correrse el modelo de predicción o no
+    user_text, modelo_ok = generate_user_text(submit_button_value, no_of_trainings, age, length_of_service,
+                                              training_score, award, gender, department, education, recruitment, previous_year_rating)
 
-    # Solo calculamos esto si no hay campos vacios
-    if hay_campos_vacios == False:
-        validacion_incorrecta, frase_error = calculo_validacion_incorrecta(
-            no_of_trainings, age, length_of_service, training_score)
-
-    if submit_button_value == 0:
-        texto = "No employee profile has been submited yet to the model."
-    elif hay_campos_vacios:
-        texto = "There is at least one empty field in the employee profile."
-    elif validacion_incorrecta:
-        texto = "Some employee fields do not make sense: " + frase_error
-    else:
-        texto = mostrar_variables_del_modelo(no_of_trainings, age, length_of_service, training_score,
-                                             award, gender, department, education, recruitment, previous_year_rating)
+    # Sumamos uno al submit_button_value para saber que ya no es la primer vez que está en pantalla
     submit_button_value = submit_button_value + 1
 
-    return texto, submit_button_value
+    # En caso de que el modelo esté ok, se hace la predicción
+    if modelo_ok:
+        prediction_text = generate_promotion_prediction(no_of_trainings, age, length_of_service,
+                                                        training_score, award, gender, department, education, recruitment, previous_year_rating)
+        # Si modelo_ok es True, devolvemos tres cosas
+
+    else:
+        prediction_text = "No hay nada"
+        # En caso de que no se corra la predicción del modelo, únicamente devolvemos dos cosas
+
+    return user_text, submit_button_value, prediction_text
 
 
 if __name__ == '__main__':
