@@ -22,6 +22,7 @@ from predictive_models import *
 
 
 app = dash.Dash()
+server = app.server
 
 
 app.layout = html.Div([
