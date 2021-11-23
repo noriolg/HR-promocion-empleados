@@ -407,18 +407,6 @@ app.layout = html.Div([
                 }
             ),
 
-
-
-
-
-            # 3. Model development - Can we predict promotions?
-            # ====================================================
-            html.P(dcc.Markdown(children=markdown_part_3_title,
-                                style={"text-align": "left",
-                                       "color": colors['subtitles'],
-                                       "margin-top": "50px"}
-                                )),
-
             # 4. Employee tool - What can I do as an individual employee?
             # ====================================================
             html.P(dcc.Markdown(children=markdown_part_4_title,
