@@ -407,7 +407,7 @@ app.layout = html.Div([
                 }
             ),
 
-            # 4. Employee tool - What can I do as an individual employee?
+            # 3. Employee tool - What can I do as an individual employee?
             # ====================================================
             html.P(dcc.Markdown(children=markdown_part_4_title,
                                 style={"text-align": "left",
@@ -933,6 +933,8 @@ app.layout = html.Div([
 
 
 
+            # 4. Tabs
+            # ====================================================
 
             html.Div(children=[
 
@@ -1060,19 +1062,42 @@ def register_data_from_employee_profile_and_run_predicion_model(submit_button_va
     user_text, modelo_ok = generate_user_text(submit_button_value, no_of_trainings, age, length_of_service,
                                               training_score, award, gender, department, education, recruitment, previous_year_rating)
 
+    utils.generate_user_profile(no_of_trainings, age, length_of_service,
+                                training_score, award, gender, department, education, recruitment, previous_year_rating, modelo_ok)
+
     # Sumamos uno al submit_button_value para saber que ya no es la primer vez que está en pantalla
     submit_button_value = submit_button_value + 1
 
-    # En caso de que el modelo esté ok, se hace la predicción
     if modelo_ok:
-        prediction_text = generate_promotion_prediction(no_of_trainings, age, length_of_service,
-                                                        training_score, award, gender, department, education, recruitment, previous_year_rating)
+        # En caso de que el modelo esté ok, se hace la predicción
+        prediction_text, promotion_prediction, promotion_percentage = generate_promotion_prediction(no_of_trainings, age, length_of_service,
+                                                                                                    training_score, award, gender, department, education, recruitment, previous_year_rating)
 
     else:
         prediction_text = "No hay nada"
-        # En caso de que no se corra la predicción del modelo, únicamente devolvemos dos cosas
 
     return user_text, submit_button_value, prediction_text
+
+
+"""
+@ app.callback(
+    Output(component_id="employee-comparison-qualitative-chart",
+           component_property='figure'),
+    Output(component_id="employee-comparison-quantitative-chart",
+           component_property='figure'),
+    Input(component_id="tabs",
+          component_property='value')
+)
+def update_employee_comparison_charts(tab_value):
+
+    fig_qualitative = plot_employee_profile_categorical_promotion_percentages(
+        dummy_employee_profile),
+
+    fig_quantitative = plot_employee_profile_quantitative_comparison(
+        dummy_employee_profile),
+
+    return fig_qualitative, fig_quantitative
+ """
 
 
 @app.callback(Output('tabs-content', 'children'),
@@ -1094,14 +1119,70 @@ def render_content(tab):
         )
     elif tab == 'tab-2':
         return html.Div([
-            html.H3('Tab content 2'),
-            dcc.Markdown(children="Aquí irá la comparación del empleado con el resto de panas",
-                         style={"text-align": "left",
+            html.H3('Employee comparison with peers'),
+
+            html.Div(
+                children=[
+
+                    dcc.Markdown(children="The following charts compare employee performance against its peers",
+                                 style={"text-align": "left",
+                                        "color": colors['text'],
+                                        "margin-top": "25px"}
+                                 ),
+
+
+                    html.Div(  # Bloque izquierdo
+                        children=[
+                            dcc.Graph(
+                                figure=plot_employee_profile_categorical_promotion_percentages(
+                                    USER_PROFILE),
+                                # id="employee-comparison-qualitative-chart",
+                                style={
+                                    "display": "block",
+                                    "height": "500px"}
+                            ),
+
+                        ],
+                        style={
+                            "width": "46%",
+                            "margin-right": "40px",
+                            "display": "inline-block",
+                        },
+                    ),
+
+                    html.Div(  # Bloque derecho
+                        children=[
+                            dcc.Graph(
+                                figure=plot_employee_profile_quantitative_comparison(
+                                    USER_PROFILE),
+                                # id="employee-comparison-quantitative-chart",
+                                style={
+                                    "display": "block",
+                                    "height": "500px"}
+                            ),
+
+                        ],
+                        style={
+                            "width": "46%",
+                            "margin-left": "40px",
+                            "display": "inline-block",
+                        },
+                    ),
+                ],
+                style={
+                    "text-align": "center"
+                }
+            ),
+
+            dcc.Markdown(children="An employee is considered to be similar to others when all employee data represented in the bar chart is the same.",
+                         style={"text-align": "center",
                                 "color": colors['text'],
                                 "margin-top": "25px"}
                          ),
 
-        ])
+
+        ]
+        )
 
 
 if __name__ == '__main__':
