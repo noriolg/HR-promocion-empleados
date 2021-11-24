@@ -1,6 +1,8 @@
 from variables import *
 from joblib import dump, load
 import numpy as np
+import plotly.graph_objects as go
+from utils import *
 
 grid_search_clf = load('data/resultados_gridsearch_modelos.joblib')
 sc = load('data/standard_scaler_modelos.joblib')
@@ -9,6 +11,10 @@ encoder_education = load('data/encoder_variable_education.joblib')
 encoder_gender = load('data/encoder_variable_gender.joblib')
 encoder_recruitment_channel = load(
     'data/encoder_variable_recruitment_channel.joblib')
+
+
+# FUNCIONES PARA USER PROFILE GENERATOR
+# =======================================
 
 
 def generate_user_text(submit_button_value, no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
@@ -88,6 +94,9 @@ def mostrar_variables_del_modelo(no_of_trainings, age, length_of_service, traini
     return texto
 
 
+# FUNCIONES PARA TAB 1
+# =======================================
+
 def generate_promotion_prediction(no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
 
     # First, we encode the necessary variables to fit the model as it was generated
@@ -117,4 +126,160 @@ def generate_promotion_prediction(no_of_trainings, age, length_of_service, train
         prediction_text = "The employee will not be promoted with probability {0}%".format(
             round(probability_of_prediction_float*100, 2))
 
-    return prediction_text
+    return prediction_text, prediction, probability_of_prediction_float
+
+
+# FUNCIONES PARA TAB 2
+# =======================================
+
+
+def plot_employee_profile_categorical_promotion_percentages(employee_profile):
+    # Primero generamos los nombres de las columnas particulares para el perfil de empleado introducido
+    personalized_bar_names_for_employee = []
+    for clave, valor in employee_profile.items():
+        try:
+            nombre = dict_of_column_names[clave] + " = " + \
+                str(dict_of_categorical_variables[valor])
+        except:
+            nombre = dict_of_column_names[clave] + " = "+str(valor)
+        personalized_bar_names_for_employee.append(nombre)
+
+    # Ahora conseguimos los porcentajes de promoción para las características personales del empleado
+    employee_profile_categorical_columns = [
+        "department", "education", "gender", "recruitment_channel", "awards_won"]
+    percentages = {}
+    for column_name in employee_profile_categorical_columns:
+        # Array with number of non promoted and promoted
+        promoted_non_promoted = list(df_model[(
+            df_model[column_name] == employee_profile[column_name])]["is_promoted"].value_counts())
+        percentage_promoted = promoted_non_promoted[1] / \
+            sum(promoted_non_promoted)
+
+        # We include it in the percentages dictionary
+        percentages[column_name] = percentage_promoted
+
+    # Ahora hacemos el plot
+    trace = go.Bar(x=personalized_bar_names_for_employee,
+                   y=list(percentages.values()),
+                   name="Promoted",
+                   marker_color="mediumspringgreen",
+                   text=["{0}%".format(round(value*100, 1))
+                         for value in list(percentages.values())],
+                   textposition="auto",
+                   textangle=0,
+                   textfont_size=20,
+                   textfont_color="black",
+                   hovertemplate='% Promoted in employee category'
+                   )
+
+    data = [trace]
+    layout = go.Layout(title="% Promotions for similar people",
+                       xaxis_title="Employee Data", yaxis_title="% of workers promoted")
+    fig = go.Figure(data=data, layout=layout)
+    fig = layout_additions_for_employee_profile_plots(fig)
+
+    return fig
+
+
+def plot_employee_profile_quantitative_comparison(employee_profile):
+    # Creamos las Categorias
+    categories = [dict_of_column_names[column_name]
+                  for column_name in quantitative_columns]
+
+    # Conseguimos la media de empleados con su mismo perfil de variables categoricas
+    df_similar_people = df_model[(df_model["department"] == employee_profile["department"]) &
+                                 (df_model["education"] == employee_profile["education"]) &
+                                 (df_model["gender"] == employee_profile["gender"]) &
+                                 (df_model["recruitment_channel"] == employee_profile["recruitment_channel"]) &
+                                 (df_model["awards_won"] ==
+                                  employee_profile["awards_won"])
+                                 ].loc[:, quantitative_columns]
+    means_similar_people = [np.mean(df_similar_people[quantitative_column].values)
+                            for quantitative_column in quantitative_columns]
+
+    # Los normalizamos
+    means_similiar_people_normalized = normalize_quantitative_employee_entries(
+        means_similar_people)
+
+    # Obtenemos los datos numéricos del empleado
+    employee_numeric_data = [employee_profile[column_name]
+                             for column_name in quantitative_columns]
+
+    # Los normalizamos
+    employee_numeric_data_normalized = normalize_quantitative_employee_entries(
+        employee_numeric_data)
+
+    trace0 = go.Scatterpolar(
+        r=means_promoted_normalized,
+        theta=categories,
+        fill="toself",
+        name="Promoted",
+        marker_color="mediumspringgreen",
+        opacity=0.6
+    )
+
+    trace1 = go.Scatterpolar(
+        r=means_non_promoted_normalized,
+        theta=categories,
+        fill="toself",
+        name="Non Promoted",
+        marker_color="salmon",
+        opacity=0.6
+    )
+
+    trace2 = go.Scatterpolar(
+        r=means_similiar_people_normalized,
+        theta=categories,
+        fill="toself",
+        name="Similar employees",
+        marker_color="yellow",
+        opacity=0.4
+    )
+
+    trace3 = go.Scatterpolar(
+        r=employee_numeric_data_normalized,
+        theta=categories,
+        fill="toself",
+        name="Employee",
+        marker_color="steelblue",
+        opacity=0.6
+    )
+
+    data = [trace0, trace1, trace2, trace3]
+    layout = go.Layout(title="Comparison against similar people and overall promotions",
+                       polar=dict(
+                           radialaxis=dict(
+                               visible=True,
+                               range=[0, 1]
+                           )),
+                       showlegend=True)
+
+    fig = go.Figure(data=data, layout=layout)
+    fig = layout_additions_for_employee_profile_plots(fig)
+    return fig
+
+
+def normalize_quantitative_employee_entries(employee_quantitative_variables):
+    # Se deja hardcodeado esto. Algunos mínimos cambian para que quede mejor el radar chart
+    trainings_nomralized = normalize_max_min(
+        employee_quantitative_variables[0], 10, 0)  # Max 10, min_real 1
+    age_normalized = normalize_max_min(
+        employee_quantitative_variables[1], 60, 18)  # Max 60, min_real 20
+    prev_year_rating_normalized = normalize_max_min(
+        employee_quantitative_variables[2], 5, 0)  # Max 5, min_real 1
+    length_of_service_normalized = normalize_max_min(
+        employee_quantitative_variables[3], 40, 0)  # Max 37, min_real 1
+    avg_training_score_normalized = normalize_max_min(
+        employee_quantitative_variables[4], 100, 0)  # Max 99, min_real 39
+
+    normalized_employee_quantitative_variables = [trainings_nomralized, age_normalized,
+                                                  prev_year_rating_normalized, length_of_service_normalized, avg_training_score_normalized]
+
+    return normalized_employee_quantitative_variables
+
+
+def normalize_max_min(x, maximo, minimo):
+
+    normalized_x = (x - minimo)/(maximo-minimo)
+
+    return normalized_x

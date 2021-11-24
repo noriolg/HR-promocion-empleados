@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 
 # Global variables used all throughout the code
 # ============================================
@@ -161,3 +162,21 @@ education_options = [dict(label=education_level, value=education_level)
 
 recruitment_options = [dict(label=dict_of_categorical_variables[channel], value=channel)
                        for channel in df["recruitment_channel"].unique()]
+
+
+# "Cluster centroids" for promo
+path = 'data/means_of_quantitative_variables_for_promoted_employees.pkl'
+with open(path, 'rb') as fp:
+    means_promoted_normalized = pickle.load(fp)
+
+
+path = 'data/means_of_quantitative_variables_for_non_promoted_employees.pkl'
+with open(path, 'rb') as fp:
+    means_non_promoted_normalized = pickle.load(fp)
+
+
+# User profile
+dummy_employee_profile = {"department": "Procurement", "education": "Bachelor's", "gender": "f", "recruitment_channel": "other",
+                          "awards_won": 0, "no_of_trainings": 3, "age": 40, "previous_year_rating": 2, "length_of_service": 20, "avg_training_score": 70}
+
+USER_PROFILE = dummy_employee_profile
