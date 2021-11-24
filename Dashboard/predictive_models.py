@@ -18,6 +18,26 @@ encoder_recruitment_channel = load(
 
 
 def generate_user_text(submit_button_value, no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
+    '''Generates the text that the user sees after creating an employee profile. It also validates user input in order to decide the returned text
+
+        Parameters:
+                submit_button_value (int): number of times the sumbit button has been clicked. Generated automatically by program. Used to determine default text when value is zero
+                no_of_trainings (int): value introduced by user. A characteristic of employee profile. 
+                age (int): value introduced by user. A characteristic of employee profile. 
+                length_of_service (int): value introduced by user. A characteristic of employee profile. 
+                training_score (float): value introduced by user. A characteristic of employee profile. 
+                award (int): value introduced by user. A characteristic of employee profile. 
+                gender (string): value introduced by user. A characteristic of employee profile. 
+                department (string): value introduced by user. A characteristic of employee profile. 
+                education (string): value introduced by user. A characteristic of employee profile. 
+                recruitment (string): value introduced by user. A characteristic of employee profile. 
+                previous_year_rating (float): value introduced by user. A characteristic of employee profile. 
+
+        Returns:
+                texto (string): text to display in html div to give feedback to user regarding the inputted employee profile
+                modelo_ok (boolean): if employee profile is valid, it will return True. If not, False will be returned. This is used in order to recalculate promotion predictions and employee comparison charts
+    '''
+
     # Primero se calcula si hay campos vacíos
     hay_campos_vacios = calcular_si_hay_campos_vacios(
         no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating)
@@ -46,6 +66,24 @@ def generate_user_text(submit_button_value, no_of_trainings, age, length_of_serv
 
 
 def calcular_si_hay_campos_vacios(no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
+    '''Checks if there are any empy values in the provided variables. Returns True if there are any empty variables
+
+        Parameters:
+                no_of_trainings (int): value introduced by user. A characteristic of employee profile. 
+                age (int): value introduced by user. A characteristic of employee profile. 
+                length_of_service (int): value introduced by user. A characteristic of employee profile. 
+                training_score (float): value introduced by user. A characteristic of employee profile. 
+                award (int): value introduced by user. A characteristic of employee profile. 
+                gender (string): value introduced by user. A characteristic of employee profile. 
+                department (string): value introduced by user. A characteristic of employee profile. 
+                education (string): value introduced by user. A characteristic of employee profile. 
+                recruitment (string): value introduced by user. A characteristic of employee profile. 
+                previous_year_rating (float): value introduced by user. A characteristic of employee profile. 
+
+
+        Returns:
+                hay_campos_vacios (boolean): True if any of the received fields is empty. False if all of them have values
+    '''
 
     lista_campos = [no_of_trainings, age, length_of_service, training_score,
                     award, gender, department, education, recruitment, previous_year_rating]
@@ -58,6 +96,18 @@ def calcular_si_hay_campos_vacios(no_of_trainings, age, length_of_service, train
 
 
 def calculo_validacion_incorrecta(no_of_trainings, age, length_of_service, training_score):
+    '''Calculates whether there are any incorrect fields that have been intoduced by the user. The only possibility is with numerics, because categorical variables have been chosen from dropdown (or radiobutton/slider)
+
+        Parameters:
+                no_of_trainings (int): value introduced by user. A characteristic of employee profile. 
+                age (int): value introduced by user. A characteristic of employee profile. 
+                length_of_service (int): value introduced by user. A characteristic of employee profile. 
+                training_score (float): value introduced by user. A characteristic of employee profile. 
+
+        Returns:
+                validacion_incorrecta (boolean): True if any field is not valid. False if all fields are validated and ok
+                frase_error (string): String with error description to show to user
+    '''
 
     frase_error = ""
     validacion_incorrecta = True
@@ -79,6 +129,23 @@ def calculo_validacion_incorrecta(no_of_trainings, age, length_of_service, train
 
 
 def mostrar_variables_del_modelo(no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
+    '''Constructs the text to show user when the employee profile has been succesfully created
+
+        Parameters:
+                no_of_trainings (int): value introduced by user. A characteristic of employee profile. 
+                age (int): value introduced by user. A characteristic of employee profile. 
+                length_of_service (int): value introduced by user. A characteristic of employee profile. 
+                training_score (float): value introduced by user. A characteristic of employee profile. 
+                award (int): value introduced by user. A characteristic of employee profile. 
+                gender (string): value introduced by user. A characteristic of employee profile. 
+                department (string): value introduced by user. A characteristic of employee profile. 
+                education (string): value introduced by user. A characteristic of employee profile. 
+                recruitment (string): value introduced by user. A characteristic of employee profile. 
+                previous_year_rating (float): value introduced by user. A characteristic of employee profile. 
+
+        Returns:
+                text (string): String with profile description to show user
+    '''
 
     if award == 1:
         text_award = " "
@@ -98,6 +165,23 @@ def mostrar_variables_del_modelo(no_of_trainings, age, length_of_service, traini
 # =======================================
 
 def generate_promotion_prediction(no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating):
+    '''Predicts if the employee will be promoted or not using the pre-trained model. Sets PERCENTAJE_EMPLOYEE_PROMOTION which is later used by the promotion lever
+
+        Parameters:
+                no_of_trainings (int): value introduced by user. A characteristic of employee profile. 
+                age (int): value introduced by user. A characteristic of employee profile. 
+                length_of_service (int): value introduced by user. A characteristic of employee profile. 
+                training_score (float): value introduced by user. A characteristic of employee profile. 
+                award (int): value introduced by user. A characteristic of employee profile. 
+                gender (string): value introduced by user. A characteristic of employee profile. 
+                department (string): value introduced by user. A characteristic of employee profile. 
+                education (string): value introduced by user. A characteristic of employee profile. 
+                recruitment (string): value introduced by user. A characteristic of employee profile. 
+                previous_year_rating (float): value introduced by user. A characteristic of employee profile. 
+
+        Returns:
+                prediction_text (string): text to show user answering whether a promotion has been predicted or not
+    '''
 
     # First, we encode the necessary variables to fit the model as it was generated
     department_encoded = encoder_department.transform([department])
@@ -137,7 +221,16 @@ def generate_promotion_prediction(no_of_trainings, age, length_of_service, train
 
 
 def plot_promotion_lever(porcentaje_promocion_empleado):
-    print("In Plot promotion: {0}".format(porcentaje_promocion_empleado))
+    '''Creates a lever plot showing the employees promotion status
+
+        Parameters:
+                porcentaje_promocion_empleado (float):  probability of being classified as a "1" (promoting)
+
+        Returns:
+                fig (go.Figure): figure with the described plot showing the employee promotion probability
+    '''
+
+    #print("In Plot promotion: {0}".format(porcentaje_promocion_empleado))
     fig = go.Figure(go.Indicator(
         domain={'x': [0, 1], 'y': [0, 1]},
         value=porcentaje_promocion_empleado,
@@ -160,6 +253,15 @@ def plot_promotion_lever(porcentaje_promocion_empleado):
 
 
 def plot_employee_profile_categorical_promotion_percentages(employee_profile):
+    '''Creates a bar plot showing the promotion percentages in each of the individual employee categories
+
+        Parameters:
+                employee_profile (dict):  structure with all the employee information and model variables
+
+        Returns:
+                fig (go.Figure): figure with the described plot showing promotion percentage in each of the employee's categorical variables
+    '''
+
     # Primero generamos los nombres de las columnas particulares para el perfil de empleado introducido
     personalized_bar_names_for_employee = []
     for clave, valor in employee_profile.items():
@@ -209,6 +311,15 @@ def plot_employee_profile_categorical_promotion_percentages(employee_profile):
 
 
 def plot_employee_profile_quantitative_comparison(employee_profile):
+    '''Creates a polar plot showing the employees relative performance against mean promoted, mean non promoted and similar employees
+
+        Parameters:
+                employee_profile (dict):  structure with all the employee information and model variables
+
+        Returns:
+                fig (go.Figure): figure with the described plot showing employee position agains other categories
+    '''
+
     # Creamos las Categorias
     categories = [dict_of_column_names[column_name]
                   for column_name in quantitative_columns]
@@ -287,6 +398,15 @@ def plot_employee_profile_quantitative_comparison(employee_profile):
 
 
 def normalize_quantitative_employee_entries(employee_quantitative_variables):
+    '''Normalizes the values of the employee to show them correctly in the ploar plot
+
+        Parameters:
+                employee_quantitative_variables (array):  ordered list with all information regarding employee quantitative variables to be normalized
+
+        Returns:
+                normalized_employee_quantitative_variables (array): list with all variables normalized
+    '''
+
     # Se deja hardcodeado esto. Algunos mínimos cambian para que quede mejor el radar chart
     trainings_nomralized = normalize_max_min(
         employee_quantitative_variables[0], 10, 0)  # Max 10, min_real 1
@@ -306,6 +426,16 @@ def normalize_quantitative_employee_entries(employee_quantitative_variables):
 
 
 def normalize_max_min(x, maximo, minimo):
+    '''Normalization function (maxmin nomralization)
+
+        Parameters:
+                x (float):  value to normalize
+                maximo (float): maximum value for normalization
+                minimo (float): minimim value for normalization
+
+        Returns:
+                normalized_x (float): nomralized value
+    '''
 
     normalized_x = (x - minimo)/(maximo-minimo)
 

@@ -5,6 +5,11 @@ from variables import *
 
 
 def table_initial_variables():
+    '''Creates a table with a reduced version of the dataset to show in dashboard
+
+        Returns:
+                initial_table (go.Figure): plotly figure with 500 rows of the originial dataset
+    '''
 
     df_reduced = df.iloc[0:500, :].copy()
     initial_table = go.Figure(data=[go.Table(
@@ -27,6 +32,12 @@ def table_initial_variables():
 
 
 def bar_chart_of_variable_distribution():
+    '''Creates bar chart with the number of unique values for all dataset columns
+
+        Returns:
+                fig (go.Figure): plotly figure with a bar chart with the number of unique values per column
+    '''
+
     df_nunique = pd.DataFrame(
         {"column": df.columns, "nunique": df.nunique().values})
     column_names_for_printing = [dict_of_column_names[colname]
