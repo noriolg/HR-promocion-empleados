@@ -119,14 +119,40 @@ def generate_promotion_prediction(no_of_trainings, age, length_of_service, train
         0][prediction]
     probability_of_prediction_float = float(probability_of_prediction)
 
-    if prediction == 1:
-        prediction_text = "The employee will be promoted with probability {0}%".format(
-            round(probability_of_prediction_float*100, 2))
-    else:
-        prediction_text = "The employee will not be promoted with probability {0}%".format(
-            round(probability_of_prediction_float*100, 2))
+    # We will use the probability of promoting as a "score"
+    score = grid_search_clf.predict_proba(scaled_entry)[0][1]
+    score_float = round(float(score), 2)
+    setPorcentajePromocionEmpleado(score)
 
-    return prediction_text, prediction, probability_of_prediction_float
+    if prediction == 1:
+        prediction_text = "## A Promotion Is Likely to Occur"
+        # prediction_text = "## The employee will be promoted with probability {0}%".format(
+        # round(probability_of_prediction_float*100, 2))
+    else:
+        prediction_text = "## No Promotion Is Predicted"
+        # prediction_text = "The employee will not be promoted with probability {0}%".format(
+        #    round(probability_of_prediction_float*100, 2))
+    # prediction, probability_of_prediction_float
+    return prediction_text
+
+
+def plot_promotion_lever(porcentaje_promocion_empleado):
+    print("In Plot promotion: {0}".format(porcentaje_promocion_empleado))
+    fig = go.Figure(go.Indicator(
+        domain={'x': [0, 1], 'y': [0, 1]},
+        value=porcentaje_promocion_empleado,
+        mode="gauge+number+delta",
+        title={'text': "Promotion Lever"},
+        delta={'reference': 0.5, 'increasing': {
+            'color': "mediumspringgreen"}, 'decreasing': {'color': "salmon"}},
+        gauge={'axis': {'range': [None, 1]},
+               'bar': {'color': "steelblue"},
+               'steps': [
+            {'range': [0, 0.5], 'color': "lightgray"},
+            {'range': [0.5, 1], 'color': "gray"}],
+            'threshold': {'line': {'color': "salmon", 'width': 4}, 'thickness': 0.75, 'value': 0.5}}))
+    fig = layout_additions_for_employee_profile_plots(fig)
+    return fig
 
 
 # FUNCIONES PARA TAB 2
@@ -152,6 +178,7 @@ def plot_employee_profile_categorical_promotion_percentages(employee_profile):
         # Array with number of non promoted and promoted
         promoted_non_promoted = list(df_model[(
             df_model[column_name] == employee_profile[column_name])]["is_promoted"].value_counts())
+        print(promoted_non_promoted)
         percentage_promoted = promoted_non_promoted[1] / \
             sum(promoted_non_promoted)
 

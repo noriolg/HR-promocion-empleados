@@ -1062,42 +1062,55 @@ def register_data_from_employee_profile_and_run_predicion_model(submit_button_va
     user_text, modelo_ok = generate_user_text(submit_button_value, no_of_trainings, age, length_of_service,
                                               training_score, award, gender, department, education, recruitment, previous_year_rating)
 
-    utils.generate_user_profile(no_of_trainings, age, length_of_service,
-                                training_score, award, gender, department, education, recruitment, previous_year_rating, modelo_ok)
+    generate_user_profile(no_of_trainings, age, length_of_service,
+                          training_score, award, gender, department, education, recruitment, previous_year_rating, modelo_ok)
+
+    print("Modelo ok: {0}".format(modelo_ok))
 
     # Sumamos uno al submit_button_value para saber que ya no es la primer vez que está en pantalla
     submit_button_value = submit_button_value + 1
 
     if modelo_ok:
         # En caso de que el modelo esté ok, se hace la predicción
-        prediction_text, promotion_prediction, promotion_percentage = generate_promotion_prediction(no_of_trainings, age, length_of_service,
-                                                                                                    training_score, award, gender, department, education, recruitment, previous_year_rating)
-
+        prediction_text = generate_promotion_prediction(no_of_trainings, age, length_of_service,
+                                                        training_score, award, gender, department, education, recruitment, previous_year_rating)
     else:
-        prediction_text = "No hay nada"
+        prediction_text = "## Default values"
 
     return user_text, submit_button_value, prediction_text
 
 
-"""
 @ app.callback(
     Output(component_id="employee-comparison-qualitative-chart",
            component_property='figure'),
     Output(component_id="employee-comparison-quantitative-chart",
            component_property='figure'),
-    Input(component_id="tabs",
-          component_property='value')
+    Input(component_id="submit-button",
+          component_property='n_clicks')
 )
-def update_employee_comparison_charts(tab_value):
+def update_employee_comparison_charts(n_clicks):
 
     fig_qualitative = plot_employee_profile_categorical_promotion_percentages(
-        dummy_employee_profile),
+        getUserProfile())
 
     fig_quantitative = plot_employee_profile_quantitative_comparison(
-        dummy_employee_profile),
+        getUserProfile())
 
     return fig_qualitative, fig_quantitative
- """
+
+
+@ app.callback(
+    Output(component_id="employee-promotion-lever-graph",
+           component_property='figure'),
+    Input(component_id="submit-button",
+          component_property='n_clicks')
+)
+def update_employee_promotion_lever(n_clicks):
+
+    fig_promotion_lever = plot_promotion_lever(
+        getPorcentajePromocionEmpleado())
+
+    return fig_promotion_lever
 
 
 @app.callback(Output('tabs-content', 'children'),
@@ -1107,14 +1120,26 @@ def render_content(tab):
 
         return html.Div(
             [
-                html.H3('Tab content 1'),
-                dcc.Markdown(children="Aquí irá el modelo",
+                html.H3('Pomotion probability'),
+                dcc.Markdown(children="The following indicator shows how close the employee is to the promotion threshold",
                              style={"text-align": "left",
                                     "color": colors['text'],
                                     "margin-top": "25px"}
                              ),
-                html.Div(
-                    id='model-output-div', children=["Aquí ya no hay nada de nada"], style={'border': '2px blue solid'}),
+                dcc.Markdown(
+                    id='model-output-div',
+                    children=["## Default values"],
+                    style={"text-align": "center"}),
+
+                dcc.Graph(
+                    # figure=plot_promotion_lever(0.8),
+                    id="employee-promotion-lever-graph",
+                    style={
+                        "display": "block",
+                        "height": "500px"}
+                ),
+
+
             ]
         )
     elif tab == 'tab-2':
@@ -1134,9 +1159,8 @@ def render_content(tab):
                     html.Div(  # Bloque izquierdo
                         children=[
                             dcc.Graph(
-                                figure=plot_employee_profile_categorical_promotion_percentages(
-                                    USER_PROFILE),
-                                # id="employee-comparison-qualitative-chart",
+                                # figure=plot_employee_profile_categorical_promotion_percentages(USER_PROFILE),
+                                id="employee-comparison-qualitative-chart",
                                 style={
                                     "display": "block",
                                     "height": "500px"}
@@ -1153,9 +1177,8 @@ def render_content(tab):
                     html.Div(  # Bloque derecho
                         children=[
                             dcc.Graph(
-                                figure=plot_employee_profile_quantitative_comparison(
-                                    USER_PROFILE),
-                                # id="employee-comparison-quantitative-chart",
+                                # figure=plot_employee_profile_quantitative_comparison(USER_PROFILE),
+                                id="employee-comparison-quantitative-chart",
                                 style={
                                     "display": "block",
                                     "height": "500px"}

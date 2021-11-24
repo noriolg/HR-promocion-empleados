@@ -18,7 +18,8 @@ def layout_additions_for_employee_profile_plots(fig):
 
 
 def generate_user_profile(no_of_trainings, age, length_of_service, training_score, award, gender, department, education, recruitment, previous_year_rating, modelo_ok):
-
     if modelo_ok == True:
-        USER_PROFILE = {"department": department, "education": education, "gender": gender, "recruitment_channel": recruitment, "awards_won": award,
+        user_profile = {"department": department, "education": education, "gender": gender, "recruitment_channel": recruitment, "awards_won": int(award),
                         "no_of_trainings": no_of_trainings, "age": age, "previous_year_rating": previous_year_rating, "length_of_service": length_of_service, "avg_training_score": training_score}
+
+        setUserProfile(user_profile)

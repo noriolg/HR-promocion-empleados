@@ -97,8 +97,7 @@ This dashboard is organized with the following structure:
 
 1. Data description - Showing current employee patterns
 2. Key variables - How are promotions granted?
-3. Model development - Can we predict promotions?
-4. Employee tool - What can I do as an individual employee? 
+3. Employee tool - What can I do as an individual employee? 
 """
 
 # 1. Data description - Showing current employee patterns
@@ -127,19 +126,9 @@ In this second part of the analysis, we will study the promotions granted based 
 analyze several key relationships that have been found within the data.
 """
 
-
-# 3. Model development - Can we predict promotions?
+# 3. Employee tool - What can I do as an individual employee?
 # ====================================================
-markdown_part_3_title = "## 3. Model development - Can we predict promotions?"
-
-markdown_part_3_text = """
-
-"""
-
-
-# 4. Employee tool - What can I do as an individual employee?
-# ====================================================
-markdown_part_4_title = "## 4. Employee tool - What can I do as an individual employee? "
+markdown_part_4_title = "## 3. Employee tool - What can I do as an individual employee? "
 
 markdown_part_4_text = """
 
@@ -180,3 +169,25 @@ dummy_employee_profile = {"department": "Procurement", "education": "Bachelor's"
                           "awards_won": 0, "no_of_trainings": 3, "age": 40, "previous_year_rating": 2, "length_of_service": 20, "avg_training_score": 70}
 
 USER_PROFILE = dummy_employee_profile
+
+
+def setUserProfile(user_profile):
+    global USER_PROFILE
+    USER_PROFILE = user_profile
+
+
+def getUserProfile():
+    return USER_PROFILE
+
+
+# Default value
+PERCENTAJE_EMPLOYEE_PROMOTION = 0.5
+
+
+def setPorcentajePromocionEmpleado(percentage_employee_promotion):
+    global PERCENTAJE_EMPLOYEE_PROMOTION
+    PERCENTAJE_EMPLOYEE_PROMOTION = percentage_employee_promotion
+
+
+def getPorcentajePromocionEmpleado():
+    return PERCENTAJE_EMPLOYEE_PROMOTION
