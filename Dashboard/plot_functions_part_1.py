@@ -11,6 +11,17 @@ import utils
 
 
 def createPieChartofColumn(column_name, others_threshold):
+    '''Creates a Pie chart with the distribution of a categorical variable. Lowest percentages can be included
+    in "others" category. This can be adjusted with entry parameters.
+
+        Parameters:
+                column_name (string): name of the column from df to represent in pie chart. 
+                others_threshold (float): percentages lower than this threshold will bre grouped into the "Others" category.
+
+        Returns:
+                fig (go.Figure): figure with the pie chart for the specified column and threshold.
+    '''
+
     # List with all unique labels in column
     unique_categories = df[column_name].unique()
     # Totals for each of the unique labels
@@ -66,6 +77,14 @@ def createPieChartofColumn(column_name, others_threshold):
 
 
 def createHistogramofColumn(column_name):
+    '''Creates a histogram with the distribution of a quantitative variable. 
+
+        Parameters:
+                column_name (string): name of the column from df to represent in histogram. 
+
+        Returns:
+                fig (go.Figure): figure with the histogram for the specified column.
+    '''
 
     trace0 = go.Histogram(x=df[column_name],
                           opacity=0.7)

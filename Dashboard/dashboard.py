@@ -1168,7 +1168,7 @@ def render_content(tab):
 
                         ],
                         style={
-                            "width": "46%",
+                            "width": "43%",
                             "margin-right": "40px",
                             "display": "inline-block",
                         },
@@ -1186,7 +1186,7 @@ def render_content(tab):
 
                         ],
                         style={
-                            "width": "46%",
+                            "width": "43%",
                             "margin-left": "40px",
                             "display": "inline-block",
                         },

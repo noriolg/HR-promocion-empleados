@@ -11,6 +11,16 @@ import utils
 
 
 def plot_promotions_by_cat_variable(colname):
+    '''Creates a bar chart with the total number of promoted and non promoted people by each of the unique values of the specified column name. 
+    These column names should represent categorical variables
+
+        Parameters:
+                colname (string):  the unique values of this column of the df will be the bars in the x axis of the plot. Total promotions will be calculated for each.
+
+        Returns:
+                fig (go.Figure): figure with the absolute promotions barchart for the specified column
+    '''
+
     trace0 = go.Bar(x=df[colname].unique(),
                     y=[df[(df[colname] == item) & (df['is_promoted'] == 1)]
                        [colname].count() for item in df[colname].unique()],
@@ -34,6 +44,15 @@ def plot_promotions_by_cat_variable(colname):
 
 
 def plot_percentage_promotions_by_cat_variable(colname):
+    '''Creates a bar chart with the distribution of promotion percentages by each of the unique values of the specified column.
+    These column names should represent categorical variables
+
+        Parameters:
+                colname (string):  the unique values of this column of the df will be the bars in the x axis of the plot. Promotion percentages will be calculated for each
+
+        Returns:
+                fig (go.Figure): figure with the promotion percentage barchart for the specified column
+    '''
 
     totals_per_col = df[colname].value_counts()
     unique_values = df[colname].unique()
@@ -60,6 +79,15 @@ def plot_percentage_promotions_by_cat_variable(colname):
 
 
 def plot_promotions_by_quant_variable(colname):
+    '''Creates a histrogram with the total number of promoted and non promoted people by each of the unique values of the specified column name. 
+    These column names should represent categorical variables
+
+        Parameters:
+                colname (string):  the unique values of this column of the df will be the bars in the x axis of the plot. Total promotions will be calculated for each.
+
+        Returns:
+                fig (go.Figure): figure with the absolute promotions histogram for the specified column
+    '''
 
     trace0 = go.Histogram(x=df[df["is_promoted"] == 1][colname],
                           name="Promoted",
@@ -80,6 +108,15 @@ def plot_promotions_by_quant_variable(colname):
 
 
 def plot_percentage_promotions_by_quant_variable(colname):
+    '''Creates a histogram with the distribution if promotion percentages by each of the unique values of the specified column.
+    These column names should represent quantitative variables
+
+        Parameters:
+                colname (string):  the unique values of this column of the df will be the bars in the x axis of the plot. Promotion percentages will be calculated for each
+
+        Returns:
+                fig (go.Figure): figure with the promotion percentage histogram for the specified column
+    '''
 
     totals_per_col = df[colname].value_counts()
 
@@ -126,6 +163,15 @@ def plot_percentage_promotions_by_quant_variable(colname):
 # STATIC PLOTS
 # ==============================
 def department_constitution(title):
+    '''Creates a static bubble plot showing department size, average % promotions and aberage previous year rating
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     traces = [go.Scatter(x=df_department[df_department['department'] == department]['percentage_promotions'],
                          y=df_department[df_department['department']
                                          == department]['mean_prev_year_rating'],
@@ -150,26 +196,45 @@ def department_constitution(title):
 
 
 def ages_service_lengths(title):
+    '''Creates a static bubble plot showing promotion percentage (size) and number of workers (color) for every age and length of service
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
+    ages_labels = [
+        "Age: " + str(x) + "   " for x in df_ages_service_lengths["age"]]
+    length_labels = [
+        "L. Serv: " + str(x) + "   " for x in df_ages_service_lengths["length_of_service"]]
+    percentage_labels = ["Promotion perc. : " + str(x) + "%" for x in round(
+        df_ages_service_lengths["per_promoted"]*100, 1).values]
+
+    text_labels = []
+    for i in range(len(ages_labels)):
+        text_labels.append(
+            ages_labels[i] + length_labels[i] + percentage_labels[i])
+
     trace0 = go.Scatter(x=df_ages_service_lengths["age"],
                         y=df_ages_service_lengths["length_of_service"],
                         mode="markers",
-                        marker_size=df_ages_service_lengths["per_promoted"]*50,
                         showlegend=False,
                         marker={
-                        "color": df_ages_service_lengths['tot_people'],
-                        "showscale": True,
-                        "cmax": 100,
-                        "cmin": 0,
-                        "colorbar": {
-                            "title": "N. workers"
-                        },
-                        "colorscale": "plasma"
-
-                        },
-                        hovertemplate='<b>T. Age:</b> {0}<br>'.format(df_ages_service_lengths["age"].values[0]) +
-                        '<b>L. Service:</b> {0}<br>'.format(df_ages_service_lengths["length_of_service"].values[0]) +
-                        '<b>Y. % Promoted:</b> {0}%<br>'.format(
-        round(df_ages_service_lengths["per_promoted"].values[0], 1)),
+                            "color": df_ages_service_lengths['tot_people'],
+                            "size": df_ages_service_lengths["per_promoted"]*50,
+                            "showscale": True,
+                            "cmax": 100,
+                            "cmin": 0,
+                            "colorbar": {
+                                "title": "Number of workers in group"
+                            },
+                            "colorscale": "plasma"
+    },
+        text=text_labels,
+        hovertemplate="%{text}",
+        name=" "
 
     )
 
@@ -183,6 +248,15 @@ def ages_service_lengths(title):
 
 
 def avg_training_score_no_of_trainings_promotions(title):
+    '''Creates a static scatter plot showing promotion percentage by average training score and number of trainings
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     fig = px.scatter(df, x="avg_training_score", y="no_of_trainings",
                      color="is_promoted",
                      labels={
@@ -196,6 +270,15 @@ def avg_training_score_no_of_trainings_promotions(title):
 
 
 def department_avg_training_score(title):
+    '''Creates a static box plot showing average training score broken down by department and promotion
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     fig = px.box(df, x="department", y="avg_training_score",
                  color="is_promoted",
                  title=title,
@@ -206,6 +289,8 @@ def department_avg_training_score(title):
                  },
                  color_discrete_sequence=['salmon', "mediumspringgreen"],
                  )
+    newnames = {"0": 'Not Promoted', "1": 'Promoted'}
+    fig.for_each_trace(lambda t: t.update(name=newnames[t.name]))
     fig.update_traces(quartilemethod="exclusive")
     fig = utils.layout_additions(fig)
     return fig
@@ -213,6 +298,15 @@ def department_avg_training_score(title):
 
 # Is the company an equal opportunity employer?
 def distribution_of_workers_per_department_and_gender_percentages(title):
+    '''Creates a static bar plot showing gender distribution by department
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     trace0 = go.Bar(x=df_department['department'], y=df_department['male_staff'] /
                     df_department['total_people'], name="Male Staff")
     trace1 = go.Bar(x=df_department['department'], y=df_department['female_staff'] /
@@ -228,6 +322,15 @@ def distribution_of_workers_per_department_and_gender_percentages(title):
 
 
 def distribution_of_workers_per_department_and_gender_absolutes(title):
+    '''Creates a static bar plot showing absolute numbers for gender distribution by department
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     trace0 = go.Bar(x=df_department['department'],
                     y=df_department['male_staff'], name="Male Staff")
     trace1 = go.Bar(x=df_department['department'],
@@ -242,6 +345,15 @@ def distribution_of_workers_per_department_and_gender_absolutes(title):
 
 
 def distribution_of_workers_promotion_per_department_and_gender(title):
+    '''Creates a static bar plot showing percentage of workers promoted by department and gender
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     trace0 = go.Bar(x=df_department['department'], y=df_department['promotions_male_staff'] /
                     df_department['male_staff'], name="Male Staff")
     trace1 = go.Bar(x=df_department['department'], y=df_department['promotions_female_staff'] /
@@ -256,6 +368,15 @@ def distribution_of_workers_promotion_per_department_and_gender(title):
 
 
 def total_distribution_of_workers_promotion(title):
+    '''Creates a static bar plot showing aggregate percentage of workers promoted by gender
+
+        Parameters:
+                title (string):  title to be shown in the plot
+
+        Returns:
+                fig (go.Figure): figure with the described plot
+    '''
+
     trace0 = go.Bar(y=['Male', 'Female'], x=[df_department['promotions_male_staff'].sum()/df_department['male_staff'].sum(),
                     df_department['promotions_female_staff'].sum()/df_department['female_staff'].sum()], name="Staff", orientation='h')
 

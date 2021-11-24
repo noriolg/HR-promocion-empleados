@@ -130,10 +130,6 @@ analyze several key relationships that have been found within the data.
 # ====================================================
 markdown_part_4_title = "## 3. Employee tool - What can I do as an individual employee? "
 
-markdown_part_4_text = """
-
-"""
-
 # Big div containing the components
 width_div_components_for_employee_tool = "300px"
 # Component (pickers and others)
@@ -172,22 +168,49 @@ USER_PROFILE = dummy_employee_profile
 
 
 def setUserProfile(user_profile):
+    '''Sets global variable with employee profile information
+
+        Parameters:
+                user_profile (dict): user profile information
+    '''
+
     global USER_PROFILE
     USER_PROFILE = user_profile
 
 
 def getUserProfile():
+    '''Returns global variable with employee profule information
+
+        Returns:
+                USER_PROFILE (dict): employee profile information
+    '''
+
     return USER_PROFILE
 
 
-# Default value
+# Employee promotion
+
 PERCENTAJE_EMPLOYEE_PROMOTION = 0.5
+
+# No podía hacer esto de otra manera. Se supone que se hace con callbacks pero con los TABS me daba errores todo el rato
 
 
 def setPorcentajePromocionEmpleado(percentage_employee_promotion):
+    '''Sets global variable with probability of employee promotion 
+
+        Parameters:
+                percentage_employee_promotion (float): probability of employee promorion
+    '''
+
     global PERCENTAJE_EMPLOYEE_PROMOTION
     PERCENTAJE_EMPLOYEE_PROMOTION = percentage_employee_promotion
 
 
 def getPorcentajePromocionEmpleado():
+    '''Returns global variable with probability of employee promotion 
+
+        Returns:
+                PERCENTAJE_EMPLOYEE_PROMOTION (float): probability of employee promotion
+    '''
+
     return PERCENTAJE_EMPLOYEE_PROMOTION
