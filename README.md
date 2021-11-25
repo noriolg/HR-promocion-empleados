@@ -1,5 +1,6 @@
 # HR-promocion-empleados
 
+
 El departamento de recursos humanos de una empresa multinacional ha almacenado los datos de las promociones internas del último año. Con estos datos la empresa quiere conocer si existen patrones determinados a la hora de promocionar a un empleado o no. Además esta empresa quiere saber si puede tomar alguna medida en el futuro para orientar la mejora de las carreras profesionales de sus empleados.
 
 Para ello la empresa os pide:
@@ -10,19 +11,6 @@ Para ello la empresa os pide:
 
 ¿Qué recomendaciones le daríais al departamento de recursos humanos basándoos en los datos?
 
-## Información de los datos:
-Las variables que tenemos en los datos son las siguientes:
+## La solución propuesta se muestra en el siguiente dashboard:
 
-* employee_id: Identificador del empleado
-* department: Departamento del empleado
-* region: Región del empleado
-* educacion: Nivel de estudios
-* gender: Género del empleado
-* recruitment_channel: Manera en la que el empleado ha sido contratado
-* no_of_trainings: Número de formaciones que ha realizado el empleado en el último año
-* age: Edad del empleado
-* previous_year_rating: Puntuación obtenida en la evaluación durante los años anteriores
-* length_of_service: Años de servicio
-* awards_won: Si ha ganado algún premio durante el último año
-* avg_training_score: Puntuación media de las formaciones realizadas
-* is_promoted: 1 si ha sido ascendido y 0 en caso contrario.
+https://hr-predictions-noriolg.herokuapp.com/
