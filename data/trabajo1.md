@@ -26,3 +26,5 @@ Las variables que tenemos en los datos son las siguientes:
 * awards_won: Si ha ganado algún premio durante el último año
 * avg_training_score: Puntuación media de las formaciones realizadas
 * is_promoted: 1 si ha sido ascendido y 0 en caso contrario.
+
+https://hr-predictions-noriolg.herokuapp.com/
